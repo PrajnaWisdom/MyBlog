@@ -1,0 +1,30 @@
+<div id="article-banner">
+    <h2>Archives</h2>
+    <p class="post-date">文章归档</p>
+  </div>
+  <main class="app-body" id="archives">
+   {% regroup data by create_time.year as create_years %}
+   {% for create_year in create_years %}
+    <section class="time-section">
+      <h1 class="section-year">
+        {{ create_year.grouper }}
+      </h1>
+      <div class="section-list">
+        {% for article in create_year.list %}
+          <div class="section-list-item">
+            <a href="{{ article.url }}" class="archive-title">{{ article.title }}</a>
+            <p class="archive-date">{{ article.create_time | date:"m-d"}}</p>
+          </div>
+        {% endfor %}
+      </div>
+  </section>
+  {% endfor %}
+  </main>
+  
+  <script>
+    (function () {
+      var url = '<%= config.url %>/<%= page.path %>';
+      $('#article-banner').geopattern(url);
+      $('.header').removeClass('fixed-header');
+    })();
+  </script>

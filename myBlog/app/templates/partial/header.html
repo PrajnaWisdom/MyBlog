@@ -1,19 +1,19 @@
 <header class="header fixed-header">
     <div class="header-container">
-      <a class="home-link" href="<%- url_for() %>">
+      <a class="home-link" href="/">
         <div class="logo"></div>
-        <span><%- config.title %></span>
+        <span>{{ page.title }}</span>
       </a>
       <ul class="right-list">
-        <% for(name in theme.menu) { %>
+        {% for menu in menu_list  %}
           <li class="list-item">
-            <% if (url_for(theme.menu[name]) == '/' + path.replace('/index.html', '') || (url_for(theme.menu[name]) == '/' && is_home())) { %>
-              <a href="<%- url_for(theme.menu[name]) %>" class="item-link active"><%- name %></a>
-            <% } else { %>
-              <a href="<%- url_for(theme.menu[name]) %>" class="item-link"><%- name %></a>
-            <% } %>
+            {% if menu.name == page.title  %}>
+              <a href="{{ menu.url }}" class="item-link active">{{ menu.name }}</a>
+            {%  else  %}
+            <a href="{{ menu.url }}" class="item-link">{{ menu.name }}</a>
+            {% endif %}
           </li>
-        <% } %>
+        {% endfor %}
       </ul>
       <div class="menu">
         <span class="icon-bar"></span>
@@ -22,15 +22,15 @@
       </div>
       <div class="menu-mask">
         <ul class="menu-list">
-          <% for(name in theme.menu) { %>
+          {% for menu in menu_list  %}
             <li class="menu-item">
-              <% if (url_for(theme.menu[name]) == '/' + path.replace('/index.html', '') || (url_for(theme.menu[name]) == '/' && is_home())) { %>
-                <a href="<%- url_for(theme.menu[name]) %>" class="menu-link mobile-active"><%- name %></a>
-              <% } else { %>
-                <a href="<%- url_for(theme.menu[name]) %>" class="menu-link"><%- name %></a>
-              <% } %>
+              {% if menu.name == page.title  %}>
+                <a href="{{ menu.url }}" class="menu-link mobile-active">{{ menu.name }}</a>
+              {%  else  %}
+                <a href="{{ menu.url }}" class="menu-link">{{ menu.name }}</a>
+              {% endif %}
             </li>
-          <% } %>
+          {%  endfor %}
         </ul>
       </div>
     </div>

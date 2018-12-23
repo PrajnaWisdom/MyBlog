@@ -1,27 +1,27 @@
 <main class="app-body">
-    <% page.posts.each(function(post) { %>
+    {% for article in data %}
         <article class="article-card">
         <h2 class="article-head">
-            <a href="<%- url_for(post.path) %>"><%- post.title %></a>
+            <a href="{{ article.url }}">{{ article.name }}</a>
         </h2>
-        <p class="article-date"><%- date(post.date, "LL") %></p>
-        <% if (post.tags && post.tags.length) { %>
-            <%- partial('_partial/tag', { tags: post.tags }) %>
-        <% } %>
+        <p class="article-date">{{ article.date }}</p>
+        {% for tag in article.tags   %}
+        <a href="{{ tag.url }}" >
+        <span class="tag-code">{{ tag.name }}</span>
+        </a>
+        {% endfor %}
         <div class="article-summary">
-            <% if (post.excerpt) { %>
-            <%- post.excerpt %>
-            <% } else { %>
-            <%- truncate(strip_html(post.content), { length: 150, omission: ' ...' }) %>
-            <% } %>
+            {% if post.excerpt  %}
+                {%- post.excerpt %}
+            {% else %}
+                {{ truncate(strip_html(post.content), { length: 150, omission: ' ...' }) }}
+            {% endif %}
         </div>
-        <a class="more" href="<%- url_for(post.path) %>"><%- theme.excerpt_link %></a>
+        <a class="more" href="{{ article.url }}"><%- theme.excerpt_link %></a>
         </article>
-    <% }) %>
+    {% endfor %}
     
-    <% if (page.total > 1){ %>
-        <%- partial('_partial/pager') %>
-    <% } %>
+    {% include 'partial/pager.html' %}
 </main>
       
       

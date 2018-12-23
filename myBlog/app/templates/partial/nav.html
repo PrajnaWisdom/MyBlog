@@ -1,25 +1,14 @@
-<% if (page.prev || page.next){ %>
-    <div class="nav-container">
-      <!-- reverse left and right to put prev and next in a more logic postition -->
-      <% if (page.next){ %>
-        <a class="nav-left" href="<%- url_for(page.next.path) %>">
-          <span class="nav-arrow">← </span>
-          <% if (page.next.title){ %>
-            <%= page.next.title %>
-          <% } else { %>
-            (untitled)
-          <% } %>
-        </a>
-      <% } %>
-      <% if (page.prev){ %>
-        <a class="nav-right" href="<%- url_for(page.prev.path) %>">
-          <% if (page.prev.title){ %>
-            <%= page.prev.title %>
-          <% } else { %>
-            (untitled)
-          <% } %>
-          <span class="nav-arrow"> →</span>
-        </a>
-      <% } %>
-    </div>
-  <% } %>
+{% if data.has_previous %}
+  <div class="nav-container">
+    <!-- reverse left and right to put prev and next in a more logic postition -->
+    <a class="nav-left" href="page={{ data.previous_page_number }}">
+      <span class="nav-arrow">← </span>Prev
+    </a>
+{% endif %}
+{% if data.has_next %}
+    <a class="nav-right" href="page={{ data.next_page_number }}">
+      Next
+      <span class="nav-arrow"> →</span>
+    </a>
+  </div>
+{% endif %}
