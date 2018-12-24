@@ -16,7 +16,7 @@ class User(models.Model):
     email = models.EmailField(max_length=32)
     registered = models.DateTimeField(auto_now_add=True)
     activation_key = models.CharField(max_length=128)
-    display_name = models.CharField(max_length=32) 
+    display_name = models.CharField(max_length=32, unique=True) 
 
 class Terms(models.Model):
     '''
