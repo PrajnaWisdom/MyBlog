@@ -31,18 +31,18 @@ class Posts(models.Model):
     '''
         文章表
     '''
-    author = models.ForeignKey('User', on_delete=models.CASCADE)
+    author = models.ForeignKey('User', on_delete=models.CASCADE, null=True, blank=True)
     post_data = models.DateTimeField(auto_now=True)
     post_content = models.TextField()
     post_title = models.CharField(max_length=128)
     post_excerpt = models.TextField()
-    post_status = models.SmallIntegerField(choices=post_status_choices)
-    comment_status = models.SmallIntegerField(choices=comment_status_choices)
+    post_status = models.SmallIntegerField(choices=post_status_choices, default=0)
+    comment_status = models.SmallIntegerField(choices=comment_status_choices, default=0)
     post_modified = models.DateTimeField(auto_now_add=True)
-    post_type = models.SmallIntegerField(choices=post_type_choices)
-    menu_order = models.SmallIntegerField()
-    comment_count = models.IntegerField()
-    terms = models.ManyToManyField('Terms')
+    post_type = models.SmallIntegerField(choices=post_type_choices, default=0)
+    menu_order = models.SmallIntegerField(default=0)
+    comment_count = models.IntegerField(default=0)
+    terms = models.ManyToManyField('Terms',null=True, blank=True)
 
 
 class Comments(models.Model):
@@ -56,7 +56,7 @@ class Comments(models.Model):
     comment_date = models.DateTimeField(auto_now=True)
     comment_content = models.TextField()
     comment_approved = models.BooleanField(default=False)
-    comment_parent = models.ForeignKey('Comments', on_delete=models.CASCADE)
+    comment_parent = models.ForeignKey('Comments', on_delete=models.CASCADE, default=None)
 
 class Links(models.Model):
     '''

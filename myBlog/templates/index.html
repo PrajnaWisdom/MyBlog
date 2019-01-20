@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8" />
+		<meta content="width=device-width, initial-scale=1.0, maxium-scale=1.0, user-scalable=0" name="viewport" />
+		<meta name="description" content="漆园故吏" />
+		<meta name="keywords" content="" />
+		<link rel="shortcut icon" href="" />
+		<title></title>
+		{% load static %}
+		<link rel="stylesheet" href="{% static '/layui/css/layui.css' %}" />
+		<link rel="stylesheet" href="{% static '/statics/css/nprogress.min.css '%}" />
+		<link rel="stylesheet" href="{% static '/statics/css/main.css' %}" />
+		<script type="text/javascript" src="{% static '/statics/js/jquery-3.3.1.min.js' %}" ></script>
+		<script type="text/javascript" src="{% static '/statics/js/nprogress.min.js' %}" ></script>
+    	<script src="{% static '/layui/layui.js' %}"></script>
+	</head>
+	<body>
+		<div class="wechat-share"></div>
+		<header class="header fixed-header">
+			<div class="header-container">
+				<a class="home-link" href="/">
+					<div class="logo"></div>
+					<span>Vexo</span>
+				</a>
+				<ul class="right-list">
+					<li class="list-item">
+			            <a href="/" class="item-link active">Home</a>
+			        </li>
+			        <li class="list-item">
+			            <a href="tags.html" class="item-link">Tags</a>
+			        </li>
+			        <li class="list-item">
+			            <a href="archives.html" class="item-link">Archives</a>
+			        </li>
+			        <li class="list-item">
+			            <a href="projects.html" class="item-link">Projects</a>
+			        </li>
+			        <li class="list-item">
+			            <a href="index.html" class="item-link">About</a>
+			        </li>
+				</ul>
+				<div class="menu">
+			      <span class="icon-bar"></span>
+			      <span class="icon-bar"></span>
+			      <span class="icon-bar"></span>
+			    </div>
+			    <div class="menu-mask">
+			      <ul class="menu-list">
+			          <li class="menu-item">
+			              <a href="index.html" class="menu-link mobile-active">Home</a>
+			          </li>
+			          <li class="menu-item">
+			              <a href="tags.html" class="menu-link">Tags</a>
+			          </li>
+			          <li class="menu-item">
+			              <a href="archives.html" class="menu-link">Archives</a>
+			          </li>
+			          <li class="menu-item">
+			              <a href="projects.html" class="menu-link">Projects</a>
+			          </li>
+			          <li class="menu-item">
+			              <a href="index.html" class="menu-link">About</a>
+			          </li>
+			      </ul>
+			    </div>
+			</div>
+		</header>
+		<div  class="app-body" style="transform: translateY(0px); opacity: 1;">
+			<ul id="article-ul"></ul>
+		</div>
+		<div class="scroll-top">
+		  <span class="arrow-icon"></span>
+		</div>
+		<footer class="app-footer">
+			<p class="copyright">© 2019 | Proudly powered by <a href="/" target="_blank">Hexo</a>
+			    <br>
+			    Theme by <a href="index.html">漆园故吏</a>
+			 </p>
+		</footer>
+		<script type="text/javascript" src="{% static '/statics/js/script.js' %}" ></script>
+		<script>
+			layui.use(['flow','laydate'], function(){
+				var $ = layui.jquery;
+				var flow = layui.flow;
+				var laydate = layui.laydate;
+				var termcolor = ['', 'layui-bg-orange', 'layui-bg-green', 'layui-bg-cyan', 'layui-bg-blue', 'layui-bg-black']
+				flow.load({
+					elem:'#article-ul',
+					isAuto: true,
+					done: function(page, next){
+						var list = [];
+						$.get("/posts?page="+page, function(res){
+							console.log(res)
+							layui.each(res.data, function(index, item){
+								var terms = '';
+								// console.log(item.terms)
+								layui.each(item.terms, function(ind, term){
+									terms += '<a href="tags.html"><span class="layui-badge '+termcolor[ind % 6]+'">'+term.name+'</span></a>';
+								})
+								list.push('<li><div class="layui-card article-card"><div class="layui-card-header layui-article-head"><h2 class="article-head">'+
+						'<a href="'+'/postsdetail/'+item.id+'/">'+item.post_title+'</a></h2>'+
+					'<p class="article-date">'+item.post_data+'</p><div>'+terms+
+					'</div></div><div class="layui-card-body"><div class="article-summary">'+item.post_excerpt+
+					'</div><a class="more" href="'+'/postsdetail/'+item.id+'/">Read more&nbsp;&gt;&gt;</a></div></div></li>')
+							});
+							next(list.join(''), page < res.pages);
+						}, 'json');
+					},
+				});
+			});
+		</script>
+	</body>
+</html>

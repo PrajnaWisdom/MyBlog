@@ -13,7 +13,7 @@ class TermsSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'slug', 'parent')
 
 class PostsSerializer(serializers.ModelSerializer):
-    terms = serializers.StringRelatedField(many=True)
+    # terms = TermsSerializer(many=True)
     class Meta:
         model = models.Posts
         fields = ('id', 'author', 'post_data', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 
